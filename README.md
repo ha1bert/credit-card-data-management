@@ -21,7 +21,7 @@ python manage.py runserver 127.0.0.2:8000
 
 总行：
 
-![1](.\images\1.png)
+![1](https://github.com/sleetwalker/credit-card-data-management/blob/bdc36e0430059d0f898ab903e24b87c39f8de45f/images/1.png)
 
 分行：
 
