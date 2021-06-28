@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>信用卡数据分析系统</title>
+
+	<link href="/static/plugins/fullPage/jquery.fullPage.css" rel="stylesheet"/>
+	<link href="/static/plugins/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="/static/plugins/material-design-iconic-font-2.2.0/css/material-design-iconic-font.min.css" rel="stylesheet"/>
+	<link href="/static/plugins/waves-0.7.5/waves.min.css" rel="stylesheet"/>
+	<link href="/static/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
+	<link href="/static/plugins/select2/css/select2.min.css" rel="stylesheet"/>
+	<link href="/static/css/admin.css" rel="stylesheet"/>
+	<style>
+	/** skins **/
+	#zheng-upms-server #header {background: #17d2f3;}
+	#zheng-upms-server .content_tab{background: #17d2f3;}
+	#zheng-upms-server .s-profile>a{background: url(/static/images/zheng-upms.png) left top no-repeat;}
+	</style>
+</head>
+<body>
+<header id="header">
+	<ul id="menu">
+		<li id="guide" class="line-trigger">
+			<div class="line-wrap">
+				<div class="line top"></div>
+				<div class="line center"></div>
+				<div class="line bottom"></div>
+			</div>
+		</li>
+		<li id="logo" class="hidden-xs">
+			<a href="/">
+				<img src="/static/images/logo.png"/>
+			</a>
+			<span id="system_title">信用卡数据分析系统</span>
+		</li>
+		<li class="pull-right">
+			<ul class="hi-menu">
+				
+				<li class="dropdown">
+					<a class="waves-effect waves-light" data-toggle="dropdown" href="javascript:;">
+						<i class="him-icon zmdi zmdi-more-vert"></i>
+					</a>
+					<ul class="dropdown-menu dm-icon pull-right">
+						<li class="hidden-xs">
+							<a class="waves-effect" data-ma-action="fullscreen" href="javascript:fullPage();"><i class="zmdi zmdi-fullscreen"></i> 全屏模式</a>
+						</li>
+						<li>
+							<a class="waves-effect" href="/"><i class="zmdi zmdi-run"></i> 退出登录</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</header>
+<section id="main">
+	<!-- 左侧导航区 -->
+	<aside id="sidebar">
+		<!-- 个人资料区 -->
+		<div class="s-profile">
+			<a class="waves-effect waves-light" href="javascript:;">
+				<div class="sp-pic">
+					<img src="/static/images/avatar.jpg"/>
+				</div>
+				<div id="hello" class="sp-info">
+				</div>
+			</a>
+			<ul class="main-menu">
+				<li>
+					<a class="waves-effect" id="agrzl" href="javascript:;"><i class="zmdi zmdi-account"></i> 个人资料</a>
+				</li>
+				<li>
+					<a class="waves-effect" id="axgmm" href="javascript:;"><i class="zmdi zmdi-face"></i> 修改密码</a>
+				</li>
+				<li>
+					<a class="waves-effect" href="/"><i class="zmdi zmdi-run"></i> 退出登录</a>
+				</li>
+			</ul>
+		</div>
+		<!-- /个人资料区 -->
+		<!-- 菜单区 -->
+		<ul class="main-menu">
+			<li>
+			<a class="waves-effect" href="javascript:Tab.addTab('首页', 'home');"><i class="zmdi zmdi-home"></i> 首页</a>
+			</li>
+			<li class="sub-menu system_menus system_1 0">
+			<a class="waves-effect" href="javascript:;"><i class="zmdi zmdi-accounts-list"></i> 数据管理模块</a>
+			<ul>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('数据查看', '/static/html/crud_1.html');">数据查看</a></li>
+				<li><a id="sjgl"class="waves-effect" href="javascript:;">数据管理</a></li>
+			</ul>
+			</li>
+			<li class="sub-menu system_menus system_1 3">
+			<a class="waves-effect" href="javascript:;"><i class="zmdi zmdi-accounts"></i> 数据分析模块</a>
+			<ul>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('单变量数据分析', '/static/html/analysis_1.html');">单变量数据分析</a></li>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('双变量数据分析', '/static/html/analysis_3.html');">双变量数据分析</a></li>
+			</ul>
+			
+			</li>
+			
+			<li class="sub-menu system_menus system_1 6">
+			<a class="waves-effect" href="javascript:;"><i class="zmdi zmdi-lock-outline"></i> 系统用户管理</a>
+			<ul>
+				<li><a id="yhgl" class="waves-effect" href="javascript:;">用户管理</a></li>
+			</ul>
+			</li>
+			<!--
+			<li class="sub-menu system_menus system_1 7">
+			<a class="waves-effect" href="javascript:;"><i class="zmdi zmdi-more"></i> 其他数据管理</a>
+			<ul>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('公共码表', '/manage/coder/index');">公共码表</a></li>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('会话管理', '/manage/session/index');">会话管理</a></li>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('日志记录', '/manage/log/index');">日志记录</a></li>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('键值设置', '/manage/map/index');">键值设置</a></li>
+			</ul>
+			</li>
+			<li class="sub-menu system_menus system_2 12" style="display:none;">
+			<a class="waves-effect" href="javascript:;"><i class="zmdi zmdi-menu"></i> 标签类目管理</a>
+			<ul>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('标签管理', '/manage/tag/index');">标签管理</a></li>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('类目管理', '/manage/category/index');">类目管理</a></li>
+			</ul>
+			</li>
+			<li class="sub-menu system_menus system_2 15" style="display:none;">
+			<a class="waves-effect" href="javascript:;"><i class="zmdi zmdi-collection-text"></i> 文章内容管理</a>
+			<ul>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('文章管理', '/manage/article/index');">文章管理</a></li>
+				<li><a class="waves-effect" href="javascript:Tab.addTab('回收管理', '/manage/article/recycle');">回收管理</a></li>
+			</ul>
+			</li>
+			-->
+			<li>
+			<div class="upms-version">
+			</div>
+			</li>
+		</ul>
+		<!-- /菜单区 -->
+	</aside>
+	<!-- /左侧导航区 -->
+	<section id="content">
+		<div class="content_tab">
+			<div class="tab_left">
+				<a class="waves-effect waves-light" href="javascript:;"><i class="zmdi zmdi-chevron-left"></i></a>
+			</div>
+			<div class="tab_right">
+				<a class="waves-effect waves-light" href="javascript:;"><i class="zmdi zmdi-chevron-right"></i></a>
+			</div>
+			<ul id="tabs" class="tabs">
+				<li id="tab_home" data-index="home" data-closeable="false" class="cur">
+					<span class="waves-effect waves-light">首页</span>
+				</li>
+			</ul>
+		</div>
+		<div class="content_main">
+			<div id="iframe_home" class="iframe cur">
+				<p><h4>信用卡数据分析系统——总行系统</h4></p>
+				<p><b>系统简介</b>：主要语言python，javascript，HTML，CSS。前端是基于bootstrap，后端是基于Django。插件：jQuery，Bootstrap，ECharts。数据处理：pandas</p><br/>
+				<p><h4>系统功能概述：</h4></p>
+				<p><b>资料卡片模块</b>：个人资料、密码修改。</p>
+				<p><b>数据管理模块</b>：信用卡数据的增加、删除、修改、查询功能。</p>
+				<p><b>数据分析模块</b>：单变量分析和双变量分析，并用图形表示。</p>
+				<p><b>系统用户管理</b>：系统用户数据的增加、删除、修改、查询功能。</p>
+				<p><b>其他</b>：左上角图片可以返回登录界面，右上角图标可以返回和全屏，首页可以点击返回首页等。</p>
+				<br/>
+			</div>
+		</div>
+	</section>
+</section>
+<footer id="footer"></footer>
+<script type="text/javascript">
+	function GetRequest() {
+            var url = location.search; 
+            var theRequest = new Object();
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                strs = str.split("&");
+                for ( var i = 0; i < strs.length; i++) {
+                    theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                }
+            }
+            return theRequest;
+    }
+	var Request=undefined;
+	Request=GetRequest();
+	var username=Request["username"];
+	document.getElementById("hello").innerHTML=username+'，您好！ <i class="zmdi zmdi-caret-down"></i>';
+	document.getElementById("agrzl").href="persional/?username="+username;
+	document.getElementById("axgmm").href="xgmm/?username="+username;
+	document.getElementById("sjgl").href="data_manage/?username="+username;
+	document.getElementById("yhgl").href="login_manage/?username="+username;
+</script>
+<script src="/static/plugins/jquery.1.12.4.min.js"></script>
+<script src="/static/plugins/bootstrap-3.3.0/js/bootstrap.min.js"></script>
+<script src="/static/plugins/waves-0.7.5/waves.min.js"></script>
+<script src="/static/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="/static/plugins/BootstrapMenu.min.js"></script>
+<script src="/static/plugins/device.min.js"></script>
+<script src="/static/plugins/fullPage/jquery.fullPage.min.js"></script>
+<script src="/static/plugins/fullPage/jquery.jdirk.min.js"></script>
+<script src="/static/plugins/jquery.cookie.js"></script>
+
+<script src="/static/js/admin.js"></script>
+</body>
+</html>

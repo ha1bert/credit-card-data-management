@@ -1,0 +1,131 @@
+﻿<!DOCTYPE HTML>
+<html lang="zh-cn">
+<style>
+
+	div{
+
+		margin:auto;
+        }
+</style>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>个人资料</title>
+
+	<link href="/static/plugins/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="/static/plugins/material-design-iconic-font-2.2.0/css/material-design-iconic-font.min.css" rel="stylesheet"/>
+	<link href="/static/plugins/bootstrap-table-1.11.0/bootstrap-table.min.css" rel="stylesheet"/>
+	<link href="/static/plugins/waves-0.7.5/waves.min.css" rel="stylesheet"/>
+	<link href="/static/plugins/jquery-confirm/jquery-confirm.min.css" rel="stylesheet"/>
+	<link href="/static/plugins/select2/css/select2.min.css" rel="stylesheet"/>
+
+	<link href="/static/css/common.css" rel="stylesheet"/>
+</head>
+<body>
+<!-- 新增 -->
+<div id="main" style="width: 300px;">
+	<div id=div_input1 >
+		<label for="input1">编号</label>
+		<input id="input1" type="text" value={{client_num}} class="form-control" disabled="disabled">
+	</div>
+	<div id=div_input2 >
+		<label for="input2">教育程度(博士,研究生,大学毕业,大学在读,高中,未受教育,未知)</label>
+		<input id="input2" type="text"  value={{education_level}} class="form-control">
+	</div>
+	<div id=div_input3 >
+		<label for="input3">婚姻状态(已婚,单身,离婚,未知)</label>
+		<input id="input3" type="text" value={{marital_status}}  class="form-control">
+	</div>
+	<div id=div_input4 >
+		<label for="input4">收入水平(高,较高,中,较低,低,未知)</label>
+		<input id="input4" type="text" value={{income_category}}  class="form-control">
+	</div>
+	<div id=div_input5>
+		<label for="input5">性别(男,女)</label>
+		<input id="input5" type="text"  value={{gender}}  class="form-control">
+	</div>
+	<div id=div_input6 >
+		<label for="input6">年龄</label>
+		<input id="input6" type="text" value={{age}}   class="form-control">
+	</div>
+	<div id=div_input7 >
+		<label for="input7">信用额度</label>
+		<input id="input7" type="text" value={{credit_limit}}  class="form-control">
+	</div>
+	<div id=div_input8>
+		<label for="input8">消费金额</label>
+		<input id="input8" type="text" value={{total_trans_amt}}  class="form-control">
+	</div>
+	<div id=div_input9>
+		<label for="input9">卡利用率</label>
+		<input id="input9" type="text"  value={{avg_utilization_ratio}} class="form-control">
+	</div>
+	<div id=div_input10>
+		<label for="input10">状况(存在,注销)</label>
+		<input id="input10" type="text"  value={{flag}} class="form-control">
+	</div>
+</div>
+<div id="toolbar" style="width: 300px;">
+	<a class="waves-effect waves-button"  onclick="xiugai()"><i class="zmdi zmdi-plus"></i> 确定修改</a>
+	<a class="waves-effect waves-button" onclick="fanhui()"><i class="zmdi zmdi-close"></i> 返回</a>
+</div>
+<script src="/static/plugins/jquery.1.12.4.min.js"></script>
+<script src="/static/plugins/bootstrap-3.3.0/js/bootstrap.min.js"></script>
+<script src="/static/plugins/bootstrap-table-1.11.0/bootstrap-table.min.js"></script>
+<script src="/static/plugins/bootstrap-table-1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="/static/plugins/waves-0.7.5/waves.min.js"></script>
+<script src="/static/plugins/jquery-confirm/jquery-confirm.min.js"></script>
+<script src="/static/plugins/select2/js/select2.min.js"></script>
+
+<script src="/static/js/common.js"></script>
+<script>
+	
+function xiugai(){	
+	$.alert("修改中请稍等...  (*请不要点击确认！等待成功后自动跳转！)")
+	var a,b,c,d,e,f,g,h;
+	a=document.getElementById("input1").value;
+	b=document.getElementById("input2").value;
+	c=document.getElementById("input3").value;
+	d=document.getElementById("input4").value;
+	e=document.getElementById("input5").value;
+	f=document.getElementById("input6").value;
+	g=document.getElementById("input7").value;
+	h=document.getElementById("input8").value;
+	m=document.getElementById("input9").value;
+	n=document.getElementById("input10").value;
+	$.ajax({
+        url: "axis_data/",
+        type: 'POST',
+        headers: {"X-CSRFToken":'{{ csrf_token  }}' },
+        data: {'tag':"2",
+			"client_num": a,
+        "education_level": b,
+        "marital_status": c,
+        "income_category": d,
+        "gender": e,
+        "age" : f,
+        "credit_limit": g,
+		"total_trans_amt" : h,
+        "avg_utilization_ratio": m,
+        "flag": n},
+        dataType:'json',
+        success: function (e) {
+			if (e.result=="1"){
+				$.alert("修改成功！")
+				window.history.go(-1);
+			}
+		}
+			
+    })
+	
+}
+
+function fanhui(){
+		window.history.go(-1);
+	}
+	
+
+</script>
+</body>
+</html>
