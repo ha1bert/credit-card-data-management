@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>单变量数据分析</title>
+    <script src="/static/plugins/echarts.min.js"></script>
+    <script src="/static/plugins/jquery.1.12.4.min.js"></script>
+</head>
+
+<body>
+    <div class="loadTitle">
+        <input type="button" value="教育程度"  id="btn_education_level"/>
+        <input type="button" value="婚姻状态"  id="btn_marital_status"/>
+        <input type="button" value="收入水平"  id="btn_income_category"/>
+        <input type="button" value="性别"  id="btn_gender"/>
+        <input type="button" value="年龄" id="btn_age"/>
+        <input type="button" value="信用额度"  id="btn_credit_limit"/>
+        <input type="button" value="消费金额"  id="btn_total_trans_amt"/>
+        <input type="button" value="卡利用率"  id="btn_avg_utilization_ratio"/>
+        <input type="button" value="状况"  id="btn_flag"/>
+    </div>
+    <div id="main" style="width: 600px;height:400px;"></div>
+    
+    <script type="text/javascript">
+        var education_level_bs=0;
+        var education_level_yjs=0;
+        var education_level_dxby=0;
+        var education_level_dxzd=0;
+        var education_level_gz=0;
+        var education_level_wsjy=0;
+        var education_level_wz=0;
+
+        var marital_status_yh=0;
+        var marital_status_ds=0;
+        var marital_status_lh=0;
+        var marital_status_wz=0;
+
+        var income_category_g=0
+        var income_category_jg=0
+        var income_category_z=0
+        var income_category_jd=0
+        var income_category_d=0
+        var income_category_wz=0
+
+        var gender_m = 0;
+        var gender_f = 0;
+
+        var age_20=0
+        var age_30=0
+        var age_40=0
+        var age_50=0
+        var age_100=0
+
+        var credit_limit_2000=0
+        var credit_limit_3000=0
+        var credit_limit_5000=0
+        var credit_limit_10000=0
+        var credit_limit_20000=0
+        var credit_limit_50000=0
+        var credit_limit_100000=0
+
+        var total_trans_amt_1000=0
+        var total_trans_amt_2000=0
+        var total_trans_amt_3000=0
+        var total_trans_amt_5000=0
+        var total_trans_amt_10000=0
+        var total_trans_amt_20000=0
+        var total_trans_amt_50000=0
+
+        var avg_utilization_ratio_0_1=0
+        var avg_utilization_ratio_0_2=0
+        var avg_utilization_ratio_0_3=0
+        var avg_utilization_ratio_0_5=0
+        var avg_utilization_ratio_0_8=0
+        var avg_utilization_ratio_1=0
+
+        var flag_cz=0
+        var flag_zx=0
+       $.getJSON("/static/html/data/data.json",function(data){
+            $.each(data,function(infoIndex,info){
+                if(info["education_level"]=="博士"){
+                education_level_bs=education_level_bs+1
+                }
+                else if(info["education_level"]=="研究生"){
+                    education_level_yjs=education_level_yjs+1
+                }
+                else if(info["education_level"]=="大学毕业"){
+                    education_level_dxby=education_level_dxby+1
+                }
+                else if(info["education_level"]=="大学在读"){
+                    education_level_dxzd=education_level_dxzd+1
+                }
+                else if(info["education_level"]=="高中"){
+                    education_level_gz=education_level_gz+1
+                }
+                else if(info["education_level"]=="未受教育"){
+                    education_level_wsjy=education_level_wsjy+1
+                }
+                else{
+                    education_level_wz=education_level_wz+1
+                }
+
+                if(info["marital_status"]=="已婚"){
+                marital_status_yh=marital_status_yh+1
+                }
+                else if(info["marital_status"]=="单身"){
+                    marital_status_ds=marital_status_ds+1
+                }
+                else if(info["marital_status"]=="离婚"){
+                    marital_status_lh=marital_status_lh+1
+                }
+                else{
+                    marital_status_wz=marital_status_wz+1
+                }
+                if(info["income_category"]=="高"){
+                income_category_g=income_category_g+1
+                }
+                else if(info["income_category"]=="较高"){
+                    income_category_jg=income_category_jg+1
+                }
+                else if(info["income_category"]=="中"){
+                    income_category_z=income_category_z+1
+                }
+                else if(info["income_category"]=="较低"){
+                    income_category_jd=income_category_jd+1
+                }
+                else if(info["income_category"]=="低"){
+                    income_category_d=income_category_d+1
+                }
+                else{
+                    income_category_wz=income_category_wz+1
+                }
+
+
+                if(info["gender"]=="男"){
+                    gender_m=gender_m+1;
+                }
+                else{
+                    gender_f=gender_f+1;
+                }
+
+                if(parseInt(info["age"]) < 20){
+                    age_20=age_20+1
+                }
+                else if(parseInt(info["age"]) >= 20 && parseInt(info["age"]) <30 ){
+                    age_30=age_30+1
+                }
+                else if(parseInt(info["age"]) >= 30 && parseInt(info["age"]) <40 ){
+                    age_40=age_40+1
+                }
+                else if(parseInt(info["age"]) >= 40 && parseInt(info["age"]) <50 ){
+                    age_50=age_50+1
+                }
+                else{
+                    age_100=age_100+1
+                }
+                
+                if(parseInt(info["credit_limit"]) < 2000){
+                    credit_limit_2000=credit_limit_2000+1
+                }
+                else if(parseInt(info["credit_limit"]) >= 2000 && parseInt(info["credit_limit"]) <3000 ){
+                    credit_limit_3000=credit_limit_3000+1
+                }
+                else if(parseInt(info["credit_limit"]) >= 3000 && parseInt(info["credit_limit"]) <5000 ){
+                    credit_limit_5000=credit_limit_5000+1
+                }
+                else if(parseInt(info["credit_limit"]) >= 5000 && parseInt(info["credit_limit"]) <10000 ){
+                    credit_limit_10000=credit_limit_10000+1
+                }
+                else if(parseInt(info["credit_limit"]) >= 10000 && parseInt(info["credit_limit"]) <20000 ){
+                    credit_limit_20000=credit_limit_20000+1
+                }
+                else if(parseInt(info["credit_limit"]) >= 20000 && parseInt(info["credit_limit"]) <50000 ){
+                    credit_limit_50000=credit_limit_50000+1
+                }
+                else{
+                    credit_limit_100000=credit_limit_100000+1
+                }
+        
+                if(parseInt(info["total_trans_amt"]) < 1000){
+                    total_trans_amt_1000=total_trans_amt_1000+1
+                }
+                else if(parseInt(info["total_trans_amt"]) >= 1000 && parseInt(info["total_trans_amt"]) <2000 ){
+                    total_trans_amt_2000=total_trans_amt_2000+1
+                }
+                else if(parseInt(info["total_trans_amt"]) >= 2000 && parseInt(info["total_trans_amt"]) <3000 ){
+                    total_trans_amt_3000=total_trans_amt_3000+1
+                }
+                else if(parseInt(info["total_trans_amt"]) >= 3000 && parseInt(info["total_trans_amt"]) <5000 ){
+                    total_trans_amt_5000=total_trans_amt_5000+1
+                }
+                else if(parseInt(info["total_trans_amt"]) >= 5000 && parseInt(info["total_trans_amt"]) <10000 ){
+                    total_trans_amt_10000=total_trans_amt_10000+1
+                }
+                else if(parseInt(info["total_trans_amt"]) >= 10000 && parseInt(info["total_trans_amt"]) <20000 ){
+                    total_trans_amt_20000=total_trans_amt_20000+1
+                }
+                else{
+                    total_trans_amt_50000=total_trans_amt_50000+1
+                }
+
+                if(parseFloat(info["avg_utilization_ratio"]) < 0.1){
+                    avg_utilization_ratio_0_1=avg_utilization_ratio_0_1+1
+                }
+                else if(parseFloat(info["avg_utilization_ratio"]) >= 0.1 && parseFloat(info["avg_utilization_ratio"]) <0.2 ){
+                    avg_utilization_ratio_0_2=avg_utilization_ratio_0_2+1
+                }
+                else if(parseFloat(info["avg_utilization_ratio"]) >= 0.2 && parseFloat(info["avg_utilization_ratio"]) <0.3 ){
+                    avg_utilization_ratio_0_3=avg_utilization_ratio_0_3+1
+                }
+                else if(parseFloat(info["avg_utilization_ratio"]) >= 0.3 && parseFloat(info["avg_utilization_ratio"]) <0.5 ){
+                    avg_utilization_ratio_0_5=avg_utilization_ratio_0_5+1
+                }
+                else if(parseFloat(info["avg_utilization_ratio"]) >= 0.5 && parseFloat(info["avg_utilization_ratio"]) <0.8 ){
+                    avg_utilization_ratio_0_8=avg_utilization_ratio_0_8+1
+                }
+                else{
+                    avg_utilization_ratio_1=avg_utilization_ratio_1+1
+                }
+        
+                if(info["flag"]=="存在"){
+                    flag_cz=flag_cz+1;
+                }
+                else{
+                    flag_zx=flag_zx+1;
+                }
+
+
+
+
+
+
+            })
+        })
+        $(function(){
+            $("#btn_education_level").click(function(){
+                var myChart = echarts.init(document.getElementById('main'));
+                myChart.setOption({
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{b} : {d}%"
+                    },
+                    series : [
+                    {
+                        name: '教育程度',
+                            
+                        type: 'pie',    
+                        radius: '55%',  
+                        roseType: 'angle',
+                        data:[          
+                            {value: education_level_bs, name:'博士'},
+                            {value: education_level_yjs, name:'研究生'},
+                            {value: education_level_dxby, name:'大学毕业'},
+                            {value: education_level_dxzd, name:'大学在读'},
+                            {value: education_level_gz, name:'高中'},
+                            {value: education_level_wsjy, name:'未受教育'},
+                            {value: education_level_wz, name:'未知'}
+                            ]
+                    }
+                    ]
+                })
+            })
+
+            $("#btn_marital_status").click(function(){
+                var myChart = echarts.init(document.getElementById('main'));
+                myChart.setOption({
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{b} : {d}%"
+                    },
+                    series : [
+                    {
+                        name: '婚姻状态',
+                            
+                        type: 'pie',    
+                        radius: '55%',  
+                        roseType: 'angle',
+                        data:[          
+                            {value: marital_status_yh, name:'已婚'},
+                            {value: marital_status_ds, name:'单身'},
+                            {value: marital_status_lh, name:'离婚'},
+                            {value: marital_status_wz, name:'未知'}
+                            ]
+                    }
+                    ]
+                })
+            })
+            $("#btn_income_category").click(function(){
+                var myChart = echarts.init(document.getElementById('main'));
+                myChart.setOption({
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{b} : {d}%"
+                    },
+                    series : [
+                    {
+                        name: '收入水平',
+                            
+                        type: 'pie',    
+                        radius: '55%',  
+                        roseType: 'angle',
+                        data:[          
+                            {value: income_category_g, name:'高'},
+                            {value: income_category_jg, name:'较高'},
+                            {value: income_category_z, name:'中'},
+                            {value: income_category_jd, name:'较低'},
+                            {value: income_category_d, name:'低'},
+                            {value: income_category_wz, name:'未知'}
+                            ]
+                    }
+                    ]
+                })
+            })
+
+
+
+            $("#btn_gender").click(function(){
+                var myChart = echarts.init(document.getElementById('main'));
+                myChart.setOption({
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{b} : {d}%"
+                    },
+                    series : [
+                    {
+                        name: '性别',
+                            
+                        type: 'pie',    
+                        radius: '55%',  
+                        roseType: 'angle',
+                        data:[          
+                            {value: gender_m, name:'男'},
+                            {value: gender_f, name:'女'},
+                            ]
+                    }
+                    ]
+                })
+            })
+
+            $("#btn_age").click(function(){
+                var myChart = echarts.init(document.getElementById('main'));
+                myChart.setOption({
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{b} : {d}%"
+                    },
+                    series : [
+                    {
+                        name: '年龄',
+                            
+                        type: 'pie',    
+                        radius: '55%',  
+                        roseType: 'angle',
+                        data:[          
+                            {value: age_20, name:'小于20岁'},
+                            {value: age_30, name:'20-30岁'},
+                            {value: age_40, name:'30-40岁'},
+                            {value: age_50, name:'40-50岁'},
+                            {value: age_100, name:'大于50岁'}
+                            ]
+                    }
+                    ]
+                })
+            })
+
+            $("#btn_credit_limit").click(function(){
+                var myChart = echarts.init(document.getElementById('main'));
+                myChart.setOption({
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{b} : {d}%"
+                    },
+                    series : [
+                    {
+                        name: '信用额度',
+                            
+                        type: 'pie',    
+                        radius: '55%',  
+                        roseType: 'angle',
+                        data:[          
+                            {value: credit_limit_2000, name:'小于2000'},
+                            {value: credit_limit_3000, name:'2000-3000'},
+                            {value: credit_limit_5000, name:'3000-5000'},
+                            {value: credit_limit_10000, name:'5000-10000'},
+                            {value: credit_limit_20000, name:'10000-20000'},
+                            {value: credit_limit_50000, name:'20000-50000'},
+                            {value: credit_limit_100000, name:'大于50000'}
+                            ]
+                    }
+                    ]
+                })
+            })
+
+            $("#btn_total_trans_amt").click(function(){
+                var myChart = echarts.init(document.getElementById('main'));
+                myChart.setOption({
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{b} : {d}%"
+                    },
+                    series : [
+                    {
+                        name: '消费金额',
+                            
+                        type: 'pie',    
+                        radius: '55%',  
+                        roseType: 'angle',
+                        data:[          
+                            {value: total_trans_amt_1000, name:'小于1000'},
+                            {value: total_trans_amt_2000, name:'1000-2000'},
+                            {value: total_trans_amt_3000, name:'2000-3000'},
+                            {value: total_trans_amt_5000, name:'3000-5000'},
+                            {value: total_trans_amt_10000, name:'5000-10000'},
+                            {value: total_trans_amt_20000, name:'10000-20000'},
+                            {value: total_trans_amt_50000, name:'大于20000'}
+                            ]
+                    }
+                    ]
+                })
+            })
+
+            $("#btn_avg_utilization_ratio").click(function(){
+                var myChart = echarts.init(document.getElementById('main'));
+                myChart.setOption({
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{b} : {d}%"
+                    },
+                    series : [
+                    {
+                        name: '卡利用率',
+                            
+                        type: 'pie',    
+                        radius: '55%',  
+                        roseType: 'angle',
+                        data:[          
+                            {value: avg_utilization_ratio_0_1, name:'小于0.1'},
+                            {value: avg_utilization_ratio_0_2, name:'0.1-0.2'},
+                            {value: avg_utilization_ratio_0_3, name:'0.2-0.3'},
+                            {value: avg_utilization_ratio_0_5, name:'0.3-0.5'},
+                            {value: avg_utilization_ratio_0_8, name:'0.5-0.8'},
+                            {value: avg_utilization_ratio_1, name:'0.8-1.0'}
+                            ]
+                    }
+                    ]
+                })
+            })
+
+            $("#btn_flag").click(function(){
+                var myChart = echarts.init(document.getElementById('main'));
+                myChart.setOption({
+                    tooltip : {
+                        trigger: 'item',
+                        formatter: "{b} : {d}%"
+                    },
+                    series : [
+                    {
+                        name: '状况',
+                            
+                        type: 'pie',    
+                        radius: '55%',  
+                        roseType: 'angle',
+                        data:[          
+                            {value: flag_cz, name:'存在'},
+                            {value: flag_zx, name:'注销'},
+                            ]
+                    }
+                    ]
+                })
+            })
+
+
+
+
+        })
+    </script>
+</body>
+</html>

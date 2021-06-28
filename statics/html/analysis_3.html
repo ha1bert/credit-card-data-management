@@ -1,0 +1,496 @@
+<!DOCTYPE HTML>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>双变量数据分析</title>
+
+</head>
+<body>
+    <div>
+        <select id= "select_1" name="select_1">
+            <option value ="education_level">教育程度</option>
+            <option value ="marital_status">婚姻状态</option>
+            <option value="income_category">收入水平</option>
+            <option value="gender">性别</option>
+            <option value ="age">年龄</option>
+            <option value ="credit_limit">信用额度</option>
+            <option value="total_trans_amt">消费金额</option>
+            <option value="avg_utilization_ratio">卡利用率</option>
+            <option value ="flag">状况</option>
+        </select>
+        <select id = "select_2" name="select_2">
+            <option value ="education_level">教育程度</option>
+            <option value ="marital_status">婚姻状态</option>
+            <option value="income_category">收入水平</option>
+            <option value="gender">性别</option>
+            <option value ="age">年龄</option>
+            <option value ="credit_limit">信用额度</option>
+            <option value="total_trans_amt">消费金额</option>
+            <option value="avg_utilization_ratio">卡利用率</option>
+            <option value ="flag">状况</option>
+        </select>
+        <input type="button" value="开始分析" onclick="createAction()" id="btn"/>
+    </div>
+    <div id="main" style="width: 700px;height:450px;"></div>
+<script src="/static/plugins/jquery.1.12.4.min.js"></script>
+<script src="/static/plugins/echarts.min.js"></script>
+
+<script>
+    var cankao={"education_level":['博士','研究生','大学毕业','大学在读','高中','未受教育','未知'],//7
+                "marital_status": ['已婚','单身','离婚','未知'],//4
+                "income_category":['高','较高','中','较低','低','未知'],//6
+                "gender":['男','女'],//2
+                "age":['小于20岁','20-30岁','30-40岁','40-50岁','大于50岁'],//5
+                "credit_limit":['小于2000','2000-3000','3000-5000','5000-10000','10000-20000','20000-50000','大于50000'],//7
+                "total_trans_amt":['小于1000','1000-2000','2000-3000','3000-5000','5000-10000','10000-20000','大于20000'],//7
+                "avg_utilization_ratio":['小于0.1','0.1-0.2','0.2-0.3','0.3-0.5','0.5-0.8','0.8-1.0'],//6
+                "flag":['存在','注销']};//2
+    var value_name={"education_level":"教育程度",
+                "marital_status": "婚姻状态",
+                "income_category":"收入水平",
+                "gender":"性别",
+                "age":"年龄",
+                "credit_limit":"信用额度",
+                "total_trans_amt":"消费金额",
+                "avg_utilization_ratio":"卡利用率",
+                "flag":"状况"};
+    var chart_arri={"legend_data":['男','女'],
+            "xAxis_data":['高','较高','中','较低','低','未知'],
+            "xAxis_name":'收入水平',
+            "yAxis_name":"数量",
+            "series":[
+                {
+                    "name": '男',
+                    "type": 'bar',
+                    "stack":'统一一下',
+                    "data": [5, 20, 36, 10, 10, 20],
+                },
+                {
+                    "name": '女',
+                    "type": 'bar',
+                    "stack":'统一一下',
+                    "data": [40, 22, 18, 35, 42, 40],
+                }
+            ]
+    };
+    var data_all=[];
+    $.getJSON("/static/html/data/data.json",function(data_json){
+        $.each(data_json,function(infoIndex,info){
+            var tmp={
+                "client_num": info["client_num"],
+                "education_level": info["education_level"], 
+                "marital_status": info["marital_status"], 
+                "income_category": info["income_category"],
+                "gender": info["gender"],
+                "age": "",
+                "credit_limit": "", 
+                "total_trans_amt": "", 
+                "avg_utilization_ratio": "",
+                "flag": info["flag"]
+            };
+            if(parseInt(info["age"]) < 20){
+                tmp["age"]='小于20岁';
+            }
+            else if(parseInt(info["age"]) >= 20 && parseInt(info["age"]) <30 ){
+                tmp["age"]='20-30岁';
+            }
+            else if(parseInt(info["age"]) >= 30 && parseInt(info["age"]) <40 ){
+                tmp["age"]='30-40岁';
+            }
+            else if(parseInt(info["age"]) >= 40 && parseInt(info["age"]) <50 ){
+                tmp["age"]='40-50岁';
+            }
+            else{
+                tmp["age"]='大于50岁';
+            }
+
+
+            if(parseInt(info["credit_limit"]) < 2000){
+                tmp["credit_limit"]='小于2000'
+            }
+            else if(parseInt(info["credit_limit"]) >= 2000 && parseInt(info["credit_limit"]) <3000 ){
+                tmp["credit_limit"]='2000-3000'
+            }
+            else if(parseInt(info["credit_limit"]) >= 3000 && parseInt(info["credit_limit"]) <5000 ){
+                tmp["credit_limit"]='3000-5000'
+            }
+            else if(parseInt(info["credit_limit"]) >= 5000 && parseInt(info["credit_limit"]) <10000 ){
+                tmp["credit_limit"]='5000-10000'
+            }
+            else if(parseInt(info["credit_limit"]) >= 10000 && parseInt(info["credit_limit"]) <20000 ){
+                tmp["credit_limit"]='10000-20000'
+            }
+            else if(parseInt(info["credit_limit"]) >= 20000 && parseInt(info["credit_limit"]) <50000 ){
+                tmp["credit_limit"]='20000-50000'
+            }
+            else{
+                tmp["credit_limit"]='大于50000'
+            }
+
+            if(parseInt(info["total_trans_amt"]) < 1000){
+                tmp["total_trans_amt"]='小于1000'
+                }
+                else if(parseInt(info["total_trans_amt"]) >= 1000 && parseInt(info["total_trans_amt"]) <2000 ){
+                    tmp["total_trans_amt"]='1000-2000'
+                }
+                else if(parseInt(info["total_trans_amt"]) >= 2000 && parseInt(info["total_trans_amt"]) <3000 ){
+                    tmp["total_trans_amt"]='2000-3000'
+                }
+                else if(parseInt(info["total_trans_amt"]) >= 3000 && parseInt(info["total_trans_amt"]) <5000 ){
+                    tmp["total_trans_amt"]='3000-5000'
+                }
+                else if(parseInt(info["total_trans_amt"]) >= 5000 && parseInt(info["total_trans_amt"]) <10000 ){
+                    tmp["total_trans_amt"]='5000-10000'
+                }
+                else if(parseInt(info["total_trans_amt"]) >= 10000 && parseInt(info["total_trans_amt"]) <20000 ){
+                    tmp["total_trans_amt"]='10000-20000'
+                }
+                else{
+                    tmp["total_trans_amt"]='大于20000'
+                }
+
+            if(parseFloat(info["avg_utilization_ratio"]) < 0.1){
+                tmp["avg_utilization_ratio"]='小于0.1'
+                }
+                else if(parseFloat(info["avg_utilization_ratio"]) >= 0.1 && parseFloat(info["avg_utilization_ratio"]) <0.2 ){
+                    tmp["avg_utilization_ratio"]='0.1-0.2'
+                }
+                else if(parseFloat(info["avg_utilization_ratio"]) >= 0.2 && parseFloat(info["avg_utilization_ratio"]) <0.3 ){
+                    tmp["avg_utilization_ratio"]='0.2-0.3'
+                }
+                else if(parseFloat(info["avg_utilization_ratio"]) >= 0.3 && parseFloat(info["avg_utilization_ratio"]) <0.5 ){
+                    tmp["avg_utilization_ratio"]='0.3-0.5'
+                }
+                else if(parseFloat(info["avg_utilization_ratio"]) >= 0.5 && parseFloat(info["avg_utilization_ratio"]) <0.8 ){
+                    tmp["avg_utilization_ratio"]='0.5-0.8'
+                }
+                else{
+                    tmp["avg_utilization_ratio"]='0.8-1.0'
+                }
+            data_all.push(tmp);
+        })
+        
+    })
+    function createAction() {
+        var slt_value_1= document.getElementById("select_1").value; //"client_num"
+        var slt_value_2= document.getElementById("select_2").value;  //"client_num"
+        if(slt_value_1!=slt_value_2){
+        chart_arri["legend_data"]=cankao[slt_value_1];//['男','女']
+        chart_arri["xAxis_data"]=cankao[slt_value_2];//['高','较高','中','较低','低','未知']
+        chart_arri["xAxis_name"]=value_name[slt_value_2];//'收入水平'
+        
+        var series_data=[];//{"男":[1,2,3],"女":[4,5,6]}
+        $.each(chart_arri["legend_data"],function(info_str_Index_2,info_str_2){
+            series_dict={"name": info_str_2,
+                    "type": 'bar',
+                    "stack":'统一一下',
+                    "data": []};
+            var tmp=[];
+            for(var i=0;i<chart_arri["xAxis_data"].length;i++){
+                tmp.push(0);
+            }
+            $.each(data_all,function(info_dict_Index_1,info_dict_1){
+                if(info_dict_1[slt_value_1]==info_str_2){
+                    for(var j=0;j<chart_arri["xAxis_data"].length;j++){
+                        if(info_dict_1[slt_value_2]==chart_arri["xAxis_data"][j]){
+                            tmp[j]=tmp[j]+1;
+                        }
+                    }
+                }    
+            });
+            series_dict["data"]=tmp;
+            series_data.push(series_dict);
+        });
+        chart_arri["series"]=series_data;
+
+       //echart
+        var myChart = echarts.init(document.getElementById('main'));
+        var option;
+        if(chart_arri["legend_data"].length==2){
+            option = {
+                tooltip: {
+                    trigger: "item",  
+                },
+                legend: {
+                    itemWidth:15,  
+                    itemHeight:15,  
+                    data: chart_arri["legend_data"],
+                },
+                xAxis: {
+                    data:  chart_arri["xAxis_data"],
+                    splitLine:{
+                        show:false,
+                    },
+                    name: chart_arri["xAxis_name"],
+                },
+                yAxis: {
+                    splitLine:{
+                        show:false,
+                    },
+                    name: chart_arri["yAxis_name"],
+                },
+                series: [
+                    {
+                        name: chart_arri["series"][0]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][0]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][1]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][1]["data"],
+                    }
+                ]
+            };
+        }
+        else if(chart_arri["legend_data"].length==4){
+            option = {
+                tooltip: {
+                    trigger: "item",  
+                },
+                legend: {
+                    itemWidth:15,  
+                    itemHeight:15,  
+                    data: chart_arri["legend_data"],
+                },
+                xAxis: {
+                    data:  chart_arri["xAxis_data"],
+                    splitLine:{
+                        show:false,
+                    },
+                    name: chart_arri["xAxis_name"],
+                },
+                yAxis: {
+                    splitLine:{
+                        show:false,
+                    },
+                    name: chart_arri["yAxis_name"],
+                },
+                series: [
+                    {
+                        name: chart_arri["series"][0]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][0]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][1]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][1]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][2]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][2]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][3]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][3]["data"],
+                    }
+                ]
+            };
+        }
+        else if(chart_arri["legend_data"].length==5){
+            option = {
+                tooltip: {
+                    trigger: "item",  
+                },
+                legend: {
+                    itemWidth:15,  
+                    itemHeight:15,  
+                    data: chart_arri["legend_data"],
+                },
+                xAxis: {
+                    data:  chart_arri["xAxis_data"],
+                    splitLine:{
+                        show:false,
+                    },
+                    name: chart_arri["xAxis_name"],
+                },
+                yAxis: {
+                    splitLine:{
+                        show:false,
+                    },
+                    name: chart_arri["yAxis_name"],
+                },
+                series: [
+                    {
+                        name: chart_arri["series"][0]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][0]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][1]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][1]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][2]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][2]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][3]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][3]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][4]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][4]["data"],
+                    }
+                ]
+            };
+        }
+        else if(chart_arri["legend_data"].length==6){
+            option = {
+                tooltip: {
+                    trigger: "item",  
+                },
+                legend: {
+                    itemWidth:15,  
+                    itemHeight:15,  
+                    data: chart_arri["legend_data"],
+                },
+                xAxis: {
+                    data:  chart_arri["xAxis_data"],
+                    splitLine:{
+                        show:false,
+                    },
+                    name: chart_arri["xAxis_name"],
+                },
+                yAxis: {
+                    splitLine:{
+                        show:false,
+                    },
+                    name: chart_arri["yAxis_name"],
+                },
+                series: [
+                    {
+                        name: chart_arri["series"][0]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][0]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][1]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][1]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][2]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][2]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][3]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][3]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][4]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][4]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][5]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][5]["data"],
+                    }
+                ]
+            };
+        }
+        else {
+            option = {
+                tooltip: {
+                    trigger: "item",  
+                },
+                legend: {
+                    itemWidth:15,  
+                    itemHeight:15,  
+                    data: chart_arri["legend_data"],
+                },
+                xAxis: {
+                    data:  chart_arri["xAxis_data"],
+                    splitLine:{
+                        show:false,
+                    },
+                    name: chart_arri["xAxis_name"],
+                },
+                yAxis: {
+                    splitLine:{
+                        show:false,
+                    },
+                    name: chart_arri["yAxis_name"],
+                },
+                series: [
+                    {
+                        name: chart_arri["series"][0]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][0]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][1]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][1]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][2]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][2]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][3]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][3]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][4]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][4]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][5]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][5]["data"],
+                    },
+                    {
+                        name: chart_arri["series"][6]["name"],
+                        type: 'bar',
+                        stack:'统一一下',
+                        data: chart_arri["series"][6]["data"],
+                    }
+                ]
+            };
+        }
+        myChart.setOption(option);
+        }
+    }
+
+</script>
+</body>
+</html>

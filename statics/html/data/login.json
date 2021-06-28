@@ -1,0 +1,22 @@
+[
+    {
+        "username": "admin",
+        "password": "123456",
+        "authority": "1",
+        "name": "银行总行",
+        "address": "中国 北京",
+        "charger" : "张三",
+        "phone": "13987654321",
+        "email": "46545656@qq.com"
+    },
+    {
+        "username": "zxc",
+        "password": "123456",
+        "authority": "0",
+        "name": "沈阳分行",
+        "address": "中国 辽宁 沈阳",
+        "charger" : "李四",
+        "phone": "13945625187",
+        "email": "818513458@qq.com"
+    }
+]
