@@ -21,30 +21,30 @@ python manage.py runserver 127.0.0.2:8000
 
 总行：
 
-![](https://github.com/sleetwalker/credit-card-data-management/blob/bdc36e0430059d0f898ab903e24b87c39f8de45f/images/1.png)
+![1](https://github.com/sleetwalker/credit-card-data-management/blob/bdc36e0430059d0f898ab903e24b87c39f8de45f/images/1.png)
 
 分行：
 
-![](https://github.com/sleetwalker/credit-card-data-management/blob/bdc36e0430059d0f898ab903e24b87c39f8de45f/images/2.png)
+![2](https://github.com/sleetwalker/credit-card-data-management/blob/bdc36e0430059d0f898ab903e24b87c39f8de45f/images/2.png)
 
 
 
 数据查看：
 
-![](https://github.com/sleetwalker/credit-card-data-management/blob/bdc36e0430059d0f898ab903e24b87c39f8de45f/images/3.png)
+![3](https://github.com/sleetwalker/credit-card-data-management/blob/bdc36e0430059d0f898ab903e24b87c39f8de45f/images/3.png)
 
 数据管理（增删改）：
 
-![](https://github.com/sleetwalker/credit-card-data-management/blob/bdc36e0430059d0f898ab903e24b87c39f8de45f/images/4.png)
+![4](https://github.com/sleetwalker/credit-card-data-management/blob/bdc36e0430059d0f898ab903e24b87c39f8de45f/images/4.png)
 
 单变量数据分析：
 
-![](https://github.com/sleetwalker/credit-card-data-management/blob/bdc36e0430059d0f898ab903e24b87c39f8de45f/images/5.png)
+![5](https://github.com/sleetwalker/credit-card-data-management/blob/bdc36e0430059d0f898ab903e24b87c39f8de45f/images/5.png)
 
 双变量数据分析：
 
-![](https://github.com/sleetwalker/credit-card-data-management/blob/bdc36e0430059d0f898ab903e24b87c39f8de45f/images/6.png)
+![6](https://github.com/sleetwalker/credit-card-data-management/blob/bdc36e0430059d0f898ab903e24b87c39f8de45f/images/6.png)
 
 用户管理：
 
-![](https://github.com/sleetwalker/credit-card-data-management/blob/bdc36e0430059d0f898ab903e24b87c39f8de45f/images/7.png)
+![7](https://github.com/sleetwalker/credit-card-data-management/blob/bdc36e0430059d0f898ab903e24b87c39f8de45f/images/7.png)
